@@ -16,6 +16,7 @@ bool checkIfPrime( int number )
     bool result = true; //assumes the number is prime
     for( int i = 2; i < number; i++ )
     {
+        // if we find out number is not prime, stop checking.
         if( (number % i) == 0 )
         {
             result = false;
