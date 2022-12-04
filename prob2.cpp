@@ -6,7 +6,7 @@
 // generates a random number
 int generateRandom( int min, int max )
 {
-    int number = (std::rand() % (max-min)) + min;
+    int number = (std::rand() % (max-min+1)) + min;
     return number;
 }
 
