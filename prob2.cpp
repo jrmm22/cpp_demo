@@ -52,7 +52,9 @@ int main( int argc, char * argv[] )
 {
     int initial_array[ARRAY_SIZE]; //initial array
     int array_size = ARRAY_SIZE;
-
+    // argc is the number of inputs given in the command line. if no inputs,
+    // then random seed wont be updated, and the program will always generate the same
+    // sequence of numbers.
     if( argc > 1 )
     {
         std::srand(std::time(nullptr));
