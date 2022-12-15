@@ -3,6 +3,25 @@
 #include <stdlib.h>
 #include <cstring>
 
+// Copied from previous project
+// generates a random number
+int generateRandom( int min, int max )
+{
+    int number = (std::rand() % (max-min+1)) + min;
+    return number;
+}
+
+void generate_key( char key[16] )
+{
+    for( int byte = 0; byte < 5; byte++ )
+    {
+        int letter = generateRandom( 'a', 'z' );
+
+        key[byte] = letter;
+    }
+    key[5] = '\0';
+}
+
 /* Prints the lower 4 bits: */
 void dump_nibble_binary( char nibble )
 {
@@ -98,13 +117,21 @@ void encrypt_message( char * msg, char * encrypted, char key[5] )
     {
         if( msg[i] != ' ' )
         {
-            encrypted[byte] = encrypt_letter( msg[i], key[key_position] );
-
-            key_position++;
-            byte ++;
-            if( key_position >= 5 )
+            if( msg[i] <= 'z' && msg[i] >= 'a' )
             {
-                key_position = 0;
+                encrypted[byte] = encrypt_letter( msg[i], key[key_position] );
+
+                key_position++;
+                byte ++;
+                if( key_position >= 5 )
+                {
+                    key_position = 0;
+                }
+            }
+            else
+            {
+                std::cout << "Message can only contain lowercase characters." << std::endl;
+                return;
             }
         }
         else
@@ -122,19 +149,45 @@ int main()
 {
     char message[ 256 ];
     char encrypted[ 256 ];
+    char generated_key[16];
     char key[16];
+
+    generate_key( generated_key );
+
+    std::cout << "Generated key" << std::endl;
+    std::cout << generated_key << std::endl;
+
     std::cout << "What message?" << std::endl;
 
     std::cin.getline( message, 256, '\n' );
 
-    std::cout << "What key?" << std::endl;
+    std::cout << "What key? ('GEN' to use the generated one)" << std::endl;
 
     std::cin >> key ;
 
-    encrypt_message( message, encrypted, key );
+    if( key[0] == 'G' && key[1] == 'E' && key[2] == 'N' )
+    {
+        std::cout << "Using generated key " << generated_key << std::endl;
+        encrypt_message( message, encrypted, generated_key );
 
-    std::cout << "Encrypted message: " << std::endl;
-    std::cout << encrypted << std::endl;
+        std::cout << "Encrypted message: " << std::endl;
+        std::cout << encrypted << std::endl;
 
+    }
+    else
+    {
+        int key_len = strlen( key );
+        if( key_len == 5 )
+        {
+            encrypt_message( message, encrypted, key );
+
+            std::cout << "Encrypted message: " << std::endl;
+            std::cout << encrypted << std::endl;
+        }
+        else
+        {
+            std::cout << "Key needs to be 5 characters long" << std::endl;
+        }
+    }
     return 0;
 }
