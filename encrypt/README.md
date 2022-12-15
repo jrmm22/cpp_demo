@@ -46,9 +46,10 @@ nwlrb
 What message?
 pixie dust
 What key? ('GEN' to use the generated one)
-pixie
-Encrypted message: 
-frvrj tdqc
+GEN
+Using generated key nwlrb
+Encrypted message:
+dfjag rrel
 ```
 
 In this failure example, the key is less than 5 characters long, so the encryption is not done.
